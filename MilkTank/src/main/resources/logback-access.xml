@@ -1,0 +1,20 @@
+<configuration>
+
+    <appender name="STDOUT_ACCESS_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.AccessEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <method/>
+                <requestedUrl/>
+                <requestedUri/>
+                <statusCode/>
+                <contentLength/>
+                <elapsedTime/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <appender-ref ref="STDOUT_ACCESS_JSON"/>
+</configuration>

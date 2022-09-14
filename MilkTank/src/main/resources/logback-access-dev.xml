@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+
+    <appender name="ROLLING_ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/access.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>logs/access.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each file should be at most 100MB, keep 7 days worth of history, but at most 10GB -->
+            <maxFileSize>100MB</maxFileSize>
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%t{yyyy-MM-dd HH:mm:ss.SSS} client=%h method=%m uri=%U url="%r" statusCode=%s bytesSent=%b
+                elapsedTime=%D
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender-ref ref="ROLLING_ACCESS"/>
+</configuration>

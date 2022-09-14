@@ -1,0 +1,83 @@
+version: "3.5"
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+    ports:
+      - 9200:9200
+    environment:
+      - "discovery.type=single-node"
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data:rw
+    networks:
+      - elk
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.6
+    ports:
+      - 25826:25826
+      - 5044:5044
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.6
+    ports:
+      - 5601:5601
+    restart: on-failure
+    depends_on:
+      - elasticsearch
+    networks:
+      - elk
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.6
+    volumes:
+      - ./filebeat/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./filebeat/data:/usr/share/filebeat/data:rw
+    user: root
+    restart: on-failure
+    depends_on:
+      - logstash
+    networks:
+      - elk
+
+  milktank:
+    image: milktank:latest
+    ports:
+      - 1234:1234
+    depends_on:
+      - elasticsearch
+      - kibana
+      - logstash
+      - filebeat
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+    networks:
+      - elk
+
+  coffeemachine:
+    image: coffeemachine:latest
+    ports:
+      - 8080:8080
+    depends_on:
+      - elasticsearch
+      - kibana
+      - logstash
+      - filebeat
+    labels:
+      collect_logs_with_filebeat: "true"
+      decode_log_event_to_json_object: "true"
+    networks:
+      - elk
+    
+networks:
+  elk:
