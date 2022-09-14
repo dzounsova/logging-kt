@@ -4,8 +4,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [correlationId="%X{X-Correlation-ID}"] %clr(%-5level)
-                %clr(%logger{36}){cyan} - %msg%n
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [correlationId="%X{X-Correlation-ID}"] %clr(%-5level) %clr(%logger{36}){cyan} - %msg%n
             </pattern>
             <charset>UTF-8</charset>
         </encoder>
@@ -22,8 +21,7 @@
             <totalSizeCap>10GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [correlationId="%X{X-Correlation-ID}"] %logger{36} -
-                %msg%n
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [correlationId="%X{X-Correlation-ID}"] %logger{36} - %msg%n
             </pattern>
         </encoder>
     </appender>
@@ -45,9 +43,7 @@
             <totalSizeCap>10GB</totalSizeCap>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [correlationId="%X{X-Correlation-ID}"] %-5level %logger{36} -
-                %msg%n
-            </pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [correlationId="%X{X-Correlation-ID}"] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
